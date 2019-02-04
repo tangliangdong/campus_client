@@ -12,6 +12,15 @@ Router.get('/list', function(req, res){
   })
 })
 
+// 根据id查找 商品
+Router.get('/find', function(req, res){
+  // User.remove({},function(e, d){})
+  console.log(req.query);
+  Goods.findById(req.query.id, function(err, doc){
+    return res.json(doc)
+  })
+})
+
 Router.get('/add', function(req, res){
   // User.remove({},function(e, d){})
   Goods.create({

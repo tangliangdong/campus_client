@@ -24,6 +24,7 @@ class IdentityPage extends React.Component{
     this.props.logout()
   }
   render(){
+
     const data = [
       `账号：${this.props.username}`,
       `昵称：${this.props.nikename}`,
@@ -31,7 +32,6 @@ class IdentityPage extends React.Component{
       `邮箱：${this.props.email}`,
       `个人简介：${this.props.desc}`,
     ];
-    console.log(this.props)
     return this.props?(
       <div>
         <div>

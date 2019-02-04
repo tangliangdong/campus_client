@@ -12,34 +12,31 @@ class GoodsCard extends React.Component{
   }
   render(){
     const { Meta } = Card;
-    let data = this.props.data
-    let content = []
-    for(let i in data){
-      console.log(data[i]);
-      content.push(<Card key={data[i]._id}
-        hoverable
-        style={{ width: 240 }}
-        cover={<img alt={data[i].name} src={`${data[i].img}`} />}
-        onClick={()=>{
-          console.log(this.props);
-          this.props.history.push("/index/detail");
-          // return this.props.router.push({
-          // 	pathname: '/index/detail',
-          // 	state: this.state
-          // })
-        }}
-      >
-        <Meta
-          title={`商品名称${data[i].name} 商品价格${data[i].now_price}`}
-          description={data[i].desc}
-        />
-      </Card>)
-    }
-    return (
+    const data = this.props.data
+    return data?(
       <div>
-        {content}
+        <Card key={data._id}
+          hoverable
+          style={{ width: 240 }}
+          cover={<img alt={data.name} src={require(`../../img/${data.img}`)} />}
+          onClick={()=>{
+            console.log(this.props);
+            const data1 = JSON.stringify(data);
+            console.log(`/index/detail/${data._id}`)
+            this.props.history.push(`/index/detail/${data._id}`);
+            // return this.props.router.push({
+            // 	pathname: '/index/detail',
+            // 	state: this.state
+            // })
+          }}
+        >
+          <Meta
+            title={`商品名称${data.name} 商品价格${data.now_price}`}
+            description={data.desc}
+          />
+        </Card>
       </div>
-    )
+    ): <h2>无商品</h2>
   }
 }
 

@@ -1,0 +1,19 @@
+.goods-card-container{
+  display: block;
+  flex-direction: column;
+
+
+
+}
+
+.goods-card-container>div{
+  display: inline-block;
+  margin: 10px 1% 0 0;
+  height: 460px;
+  width: 23%;
+}
+
+
+.goods-card-container .ant-card{
+
+}

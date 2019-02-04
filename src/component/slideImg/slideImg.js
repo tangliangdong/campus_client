@@ -15,7 +15,7 @@ class SlideImg extends React.Component{
   render(){
     const imgs = this.props.imgs
     const listItems = imgs.map((img) =>
-      <div key={img.toString()}><img width="100%" src={img.toString()} /></div>
+      <div key={img.toString()}><img width="100%" src={require(`../../img/${img}`)} /></div>
     );
     return (<Carousel
       afterChange={this.onChange}

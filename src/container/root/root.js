@@ -54,7 +54,7 @@ class Root extends React.Component{
           <Switch>
             <Route path="/index" exact component={GoodsPage}></Route>
             <Route path="/index/identity" component={IdentityPage}></Route>
-            <Route path="/index/detail" component={GoodsDetail}></Route>
+            <Route path="/index/detail/:id" component={GoodsDetail}></Route>
             <Route path="/index/shopCart" component={ShopCart}></Route>
             <Route component={GoodsPage}></Route>
           </Switch>
