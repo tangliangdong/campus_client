@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const DB_URL = 'mongodb://localhost:27017/campus'
 mongoose.connect(DB_URL)
+const Schema = mongoose.Schema;
 
 const models = {
   user: {
@@ -22,8 +23,30 @@ const models = {
     "desc": {type: String, require: true},
     "time": {type: Number},
     "num": {type: Number, require: true},
-    "img": {type: String, require: true}
+    "img": {type: String, require: true},
+    "content": {type: String, require: true}
+  },
+  goods_img: {
+    "goods_id": {
+      type: Schema.Types.ObjectId,
+      ref: 'goods'
+    },
+    "name": {type: String, require: true},
+    "address": {type: String, require: true},
+    "index": {type: Number, require: true},
+  },
+  cart: {
+    "goods_id": {
+      type: Schema.Types.ObjectId,
+      ref: 'goods'
+    },
+    "user_id": {
+      type: Schema.Types.ObjectId,
+      ref: 'user'
+    },
+    "sum": {type: Number, require: true}
   }
+
 }
 
 for(let m in models){

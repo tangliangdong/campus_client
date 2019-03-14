@@ -11,6 +11,7 @@ import * as serviceWorker from './serviceWorker'
 import Root from './container/root/root'
 import AuthRouter from './component/authRouter/authRouter'
 import AdminPage from './container/adminPage/adminPage'
+import './Global'
 import {
   BrowserRouter,
   Route,

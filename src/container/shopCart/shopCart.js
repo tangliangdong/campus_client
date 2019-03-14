@@ -9,8 +9,22 @@ import {
   message,
 } from 'antd'
 import iphoneXs from '../../img/iphone Xs.jpg'
+import {cartList} from '../../redux/goods.redux'
+import { connect } from 'react-redux'
+
+@connect(
+  state=>state,
+  {cartList}
+)
 class ShopCart extends React.Component{
 
+  componentWillReceiveProps(){
+    console.log(this.props);
+
+  }
+  componentDidMount(){
+    this.props.cartList(this.props.user._id)
+  }
   handleClick(){
     console.log(this);
     const hide = message.loading('正在结算...', 0);

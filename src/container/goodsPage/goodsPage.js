@@ -14,8 +14,11 @@ import './goodsPage.css'
 )
 class GoodsPage extends React.Component{
 
-  componentWillMount(){
+  componentDidMount(){
     this.props.getGoodsList()
+  }
+
+  componentWillReceiveProps(){
 
   }
   render(){
@@ -27,16 +30,17 @@ class GoodsPage extends React.Component{
       time: 1548997077,
       img: iphoneXs
     }
-    console.log(this.props.goods)
-    console.log(this.props.goods.goodsList[0])
     const list = this.props.goods.goodsList
-    const content = list.map(item=>
-      <GoodsCard data={item} />
-    )
+    let content = "";
+    if(list){
+      content = list.map(item=>
+        <GoodsCard data={item} />
+      )
+    }
+
     return (
       <div className="goods-card-container">
         {content}
-
 
       </div>
     )

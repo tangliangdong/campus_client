@@ -14,9 +14,14 @@ class SlideImg extends React.Component{
 
   render(){
     const imgs = this.props.imgs
-    const listItems = imgs.map((img) =>
-      <div key={img.toString()}><img width="100%" src={require(`../../img/${img}`)} /></div>
-    );
+    console.log(imgs);
+    let listItems = "";
+    if(imgs){
+      listItems = imgs.map((img) =>
+        <div key={img.toString()}><img width="100%" src={`${URL}/img/${img.address}`} /></div>
+      );
+    }
+
     return (<Carousel
       afterChange={this.onChange}
       autoplay="true">

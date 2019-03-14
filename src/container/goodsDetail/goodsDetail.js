@@ -5,25 +5,23 @@ import {
   Carousel,
   List,
   Button,
+  Message,
 } from 'antd'
 import './goodsDetail.css'
 import { connect } from 'react-redux'
 import { transformTime } from '../../utils.js'
-import { findOneGoods } from '../../redux/goods.redux'
+import { findOneGoods,addChat } from '../../redux/goods.redux'
 import SlideImg from '../../component/slideImg/slideImg'
-import img1 from '../../img/iphone Xs.jpg'
-import img2 from '../../img/iphone Xs1.jpg'
-import img3 from '../../img/iphone Xs2.jpg'
-import img4 from '../../img/iphone Xs3.jpg'
-import img5 from '../../img/iphone Xs4.jpg'
+import AlertList from '../../component/alertList/alertList'
+
 
 @connect(
   state=>state,
-  {findOneGoods}
+  {findOneGoods,addChat}
 )
 class GoodsDetail extends React.Component{
 
-  componentWillMount(){
+  componentDidMount(){
     const id = this.props.match.params.id
     this.props.findOneGoods(id)
   }
@@ -40,15 +38,23 @@ class GoodsDetail extends React.Component{
     //   num: 1,
     //   img: [img1,img2,img3,img4,img5],
     // }
-// <SlideImg imgs={data.img}/>
+
+    // const img_div = (data==null?:"")
+    // console.log(img_div);
+    console.log(URL);
+    console.log(`${URL}/img/${data.img}`);
+    console.log(data);
+    // <img src={`${URL}/img/${data.img}`} width="100%"/>
     return (
       <div>
+        {this.props.goods.cart_msg?<AlertList msg={this.props.goods.cart_msg}></AlertList>:null}
+
         <div>
           <Row>
             <Col span={6}>
-
+              <SlideImg imgs={data.imgs}/>
             </Col>
-            <Col span={18} >
+            <Col span={18}>
               <List className="detail-list">
                 <List.Item>{data.name}</List.Item>
                 <List.Item><s>原价：{data.former_price}￥</s></List.Item>
@@ -57,16 +63,26 @@ class GoodsDetail extends React.Component{
                 <List.Item>商品简介：{data.desc}</List.Item>
                 <List.Item>
                   <Row>
-                    <Button shape="round" icon="shopping-cart" size="large" type="primary">加入购物车</Button>
+                    <Button onClick={(e)=>this.handleAddChat(data._id,e)} shape="round" icon="shopping-cart" size="large" type="primary">加入购物车</Button>
                   </Row>
 
                 </List.Item>
               </List>
             </Col>
           </Row>
+          <Row>
+            <div dangerouslySetInnerHTML={{
+             __html: "<p><span style='color: rgb(255, 0, 0);'><em><strong>1111</strong></em><em><strong><img src='http://localhost:9093/img/iphone Xs.jpg' title='xxxx.jpg' alt='1.jpg'/></strong></em></span></p>"
+             }}/>
+          </Row>
         </div>
       </div>
     )
+  }
+
+  handleAddChat(id, e){
+    const user_id = this.props.user._id;
+    this.props.addChat(id,user_id)
   }
 }
 
