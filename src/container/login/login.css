@@ -10,3 +10,7 @@
   margin: 100px auto;
   text-align: center;
 }
+
+.login-form-button {
+  width: 100%;
+}

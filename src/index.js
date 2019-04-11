@@ -7,6 +7,7 @@ import { createStore, applyMiddleware, compose} from 'redux'
 import reducers from './reducer'
 import './index.css';
 import Login from './container/login/login'
+import Register from './container/register/register'
 import * as serviceWorker from './serviceWorker'
 import Root from './container/root/root'
 import AuthRouter from './component/authRouter/authRouter'
@@ -24,7 +25,7 @@ const store = createStore( reducers, compose(
   window.devToolsExtension?window.devToolsExtension():f=>f
 ));
 
-console.log(store.getState())
+// console.log(store.getState())
 
 ReactDOM.render((
   <Provider store={store}>
@@ -34,6 +35,7 @@ ReactDOM.render((
         <Switch>
           <Route path="/index" component={Root}></Route>
           <Route path="/login" component={Login}></Route>
+          <Route path="/register" component={Register}></Route>
           <Route path="/admin" component={AdminPage}></Route>
         </Switch>
       </div>

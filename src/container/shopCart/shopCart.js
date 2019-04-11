@@ -7,53 +7,100 @@ import {
   Icon,
   Table,
   message,
+  InputNumber
 } from 'antd'
-import iphoneXs from '../../img/iphone Xs.jpg'
-import {cartList} from '../../redux/goods.redux'
+import { cartList, deleteCart, changeSum } from '../../redux/cart.redux'
 import { connect } from 'react-redux'
 
 @connect(
   state=>state,
-  {cartList}
+  {cartList, deleteCart, changeSum}
 )
 class ShopCart extends React.Component{
 
+  constructor(props){
+    super(props)
+    this.state = {
+      selectedGoods: []
+    }
+  }
   componentWillReceiveProps(){
-    console.log(this.props);
 
   }
+
   componentDidMount(){
-    this.props.cartList(this.props.user._id)
+    this.props.cartList()
+
   }
+  // 结算按钮
   handleClick(){
-    console.log(this);
-    const hide = message.loading('正在结算...', 0);
-  // Dismiss manually and asynchronously
-    setTimeout(hide, 2500);
+    // const hide = message.loading('正在结算...', 0);
+
+    this.props.history.push('/index/order')
+
+    // setTimeout(hide, 2500);
+  }
+
+  // 删除商品按钮
+  handleDelete(){
+    if(this.state.selectedGoods.length > 0){
+      this.props.deleteCart(this.state.selectedGoods)
+    }else{
+      message.info('请选中购物车商品')
+    }
+  }
+
+  // 购物车商品数量修改
+  inputChange(id, e){
+    console.log(id,e);
+    this.props.changeSum(id, e)
+    if(e===0){
+      message.info("宝贝不能再减少了。。。")
+    }
+
   }
 
   render(){
-
-    const dataSource = [{
+    const data = this.props.cart.cartList;
+    let dataSource = [{
       key: '2',
       name: 'iphoneXs',
       price: 9999,
       num: 1,
       money: '9999'
     }];
-
+    if(data!=undefined&&data!=null){
+      dataSource = data;
+    }
+    for(let i = 0; i<dataSource.length; i++){
+      if(dataSource[i].goods_id){
+        dataSource[i].money = dataSource[i].sum*dataSource[i].goods_id.now_price;
+      }
+    }
     const columns = [{
       title: '商品信息',
-      dataIndex: 'name',
+      dataIndex: 'goods_id.name',
       key: 'name',
+      render: (text, record, index) => {
+        let content = "javascript:;";
+        if(record.goods_id){
+          content = `/index/detail/${record.goods_id._id}`;
+        }
+       return (
+           <a href={content}>{text}</a>
+      )}
     }, {
       title: '单价',
-      dataIndex: 'price',
+      dataIndex: 'goods_id.now_price',
       key: 'price',
     }, {
       title: '数量',
-      dataIndex: 'num',
-      key: 'num',
+      dataIndex: 'sum',
+      key: 'sum',
+      render: (text, record, index) => {
+       return (
+           <InputNumber defaultValue={record.sum} precision={0} step={1} min={1} onChange={(e)=>this.inputChange(record._id, e)} style={{width: 60}} />
+      )}
     },{
       title: '金额',
       dataIndex: 'money',
@@ -63,6 +110,9 @@ class ShopCart extends React.Component{
     const rowSelection = {
       onChange: (selectedRowKeys, selectedRows) => {
         console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+        this.setState({
+          selectedGoods: selectedRows
+        })
       },
       getCheckboxProps: record => ({
         disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -78,18 +128,18 @@ class ShopCart extends React.Component{
 
         <List>
           <List.Item>
-              <Col span={4}>
-                <img src={iphoneXs} alt="" width="100px" height="100px"/>
-              </Col>
-              <Col span={20}>
-                <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} />
-              </Col>
+            <Col span={4}>
+              <img src={URL+"/img/iphone Xs.jpg"} alt="" width="100px" height="100px"/>
+            </Col>
+            <Col span={20}>
+              <Table rowSelection={rowSelection} dataSource={dataSource} columns={columns} />
+            </Col>
 
           </List.Item>
-          <List.Item></List.Item>
         </List>
         <Row>
-          <Button onClick={()=>this.handleClick()} shape="round" type="danger" size="large">结算</Button>
+          <Button onClick={()=>this.handleClick()} shape="round" type="primary" size="large">结算</Button>
+          <Button onClick={()=>this.handleDelete()} shape="round" type="danger" size="large">删除</Button>
         </Row>
 
       </div>

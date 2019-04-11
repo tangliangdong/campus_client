@@ -1,7 +1,7 @@
 import React from 'react'
 import './login.css'
 import LoginForm from '../../component/loginForm/loginForm'
-import { Form } from 'antd'
+import { Form, Button } from 'antd'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 @connect(
@@ -9,6 +9,10 @@ import { Redirect } from 'react-router-dom'
 )
 class Login extends React.Component{
 
+
+  registerClick(){
+
+  }
 
   render(){
     const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(LoginForm);
@@ -18,6 +22,7 @@ class Login extends React.Component{
         <div className="login-frame">
           {this.props.redirectTo?<Redirect to={this.props.redirectTo} /> : null}
           <WrappedNormalLoginForm />
+          <Button className="login-form-button" onClick={()=>this.props.history.push('/register')}>注册</Button>
         </div>
       </div>
     )

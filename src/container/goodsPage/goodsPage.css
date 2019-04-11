@@ -1,4 +1,4 @@
-.goods-card-container{
+/* .goods-card-container{
   display: block;
   flex-direction: column;
 
@@ -16,4 +16,13 @@
 
 .goods-card-container .ant-card{
 
+} */
+
+.gutter-example .ant-row > div {
+  background: transparent;
+  border: 0;
+}
+.gutter-box {
+  background: #00A0E9;
+  padding: 5px 0;
 }

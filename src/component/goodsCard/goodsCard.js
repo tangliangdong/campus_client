@@ -2,6 +2,7 @@ import React from 'react'
 import { Card } from 'antd'
 import GoodsDetail from '../../container/goodsDetail/goodsDetail'
 import { Link,Redirect,withRouter } from 'react-router-dom'
+import './goodsCard.css';
 // 现价、原价、名称、描述
 
 class GoodsCard extends React.Component{
@@ -17,12 +18,10 @@ class GoodsCard extends React.Component{
       <div>
         <Card key={data._id}
           hoverable
-          style={{ width: 240 }}
-          cover={<img alt={data.name} src={require(`../../img/${data.img}`)} />}
+          style={{ high: 240 }}
+          cover={<img alt={data.name} src={URL+"/img/"+data.img} />}
           onClick={()=>{
-            console.log(this.props);
             const data1 = JSON.stringify(data);
-            console.log(`/index/detail/${data._id}`)
             this.props.history.push(`/index/detail/${data._id}`);
             // return this.props.router.push({
             // 	pathname: '/index/detail',
@@ -31,12 +30,12 @@ class GoodsCard extends React.Component{
           }}
         >
           <Meta
-            title={`商品名称${data.name} 商品价格${data.now_price}`}
+            title={`${data.name} ${data.now_price}￥`}
             description={data.desc}
           />
         </Card>
       </div>
-    ): <h2>无商品</h2>
+    ): ""
   }
 }
 

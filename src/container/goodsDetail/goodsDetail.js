@@ -5,25 +5,49 @@ import {
   Carousel,
   List,
   Button,
-  Message,
+  message,
+  Input,
 } from 'antd'
 import './goodsDetail.css'
 import { connect } from 'react-redux'
 import { transformTime } from '../../utils.js'
-import { findOneGoods,addChat } from '../../redux/goods.redux'
+import { findOneGoods, addChat, uploadComment, getComment } from '../../redux/goods.redux'
 import SlideImg from '../../component/slideImg/slideImg'
 import AlertList from '../../component/alertList/alertList'
+import CommentEle from '../../component/comment/comment'
 
 
 @connect(
   state=>state,
-  {findOneGoods,addChat}
+  { findOneGoods, addChat, uploadComment, getComment }
 )
 class GoodsDetail extends React.Component{
 
+  constructor(props){
+    super(props)
+    this.state = {
+      commentText: '',
+    }
+  }
   componentDidMount(){
     const id = this.props.match.params.id
     this.props.findOneGoods(id)
+    this.props.getComment(id)
+  }
+
+  commentClick(){
+    if(this.state.commentText.trim()===''){
+      message.info('评论信息不能为空')
+    }else{
+      this.props.uploadComment(this.state.commentText,this.props.goods._id)
+    }
+
+  }
+
+  changeText(e){
+    this.setState({
+      commentText: e.target.value
+    })
   }
 
   render(){
@@ -41,9 +65,6 @@ class GoodsDetail extends React.Component{
 
     // const img_div = (data==null?:"")
     // console.log(img_div);
-    console.log(URL);
-    console.log(`${URL}/img/${data.img}`);
-    console.log(data);
     // <img src={`${URL}/img/${data.img}`} width="100%"/>
     return (
       <div>
@@ -74,6 +95,14 @@ class GoodsDetail extends React.Component{
             <div dangerouslySetInnerHTML={{
              __html: "<p><span style='color: rgb(255, 0, 0);'><em><strong>1111</strong></em><em><strong><img src='http://localhost:9093/img/iphone Xs.jpg' title='xxxx.jpg' alt='1.jpg'/></strong></em></span></p>"
              }}/>
+          </Row>
+          <Row>
+            评论：
+            <CommentEle goodsId={data._id} />
+          </Row>
+          <Row>
+            <Input.TextArea value={this.state.commentText} onChange={(e)=>this.changeText(e)}></Input.TextArea>
+            <Button onClick={()=>this.commentClick()}>确定</Button>
           </Row>
         </div>
       </div>

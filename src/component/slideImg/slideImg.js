@@ -9,12 +9,11 @@ import './slideImg.css'
 class SlideImg extends React.Component{
 
   onChange(a, b, c) {
-    console.log(a, b, c);
+
   }
 
   render(){
     const imgs = this.props.imgs
-    console.log(imgs);
     let listItems = "";
     if(imgs){
       listItems = imgs.map((img) =>

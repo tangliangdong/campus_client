@@ -12,7 +12,8 @@ import { loadData } from '../../redux/user.redux'
 class AuthRouter extends React.Component{
   componentWillMount(){
     let pathName = this.props.location.pathname
-    if(pathName.indexOf('/admin')!=-1 && this.props.type != '1'){
+    console.log(pathName,this.props);
+    if(pathName.indexOf('/admin')!==-1 && this.props.type === '3'){
       this.props.history.push('/login')
     }
   }
@@ -33,6 +34,8 @@ class AuthRouter extends React.Component{
           }else{
             this.props.history.push('/login')
           }
+        }else{
+          this.props.history.push('/login')
         }
       })
 

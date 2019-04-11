@@ -14,7 +14,7 @@ export function getRedirectPath({type, avatar}){
   // 根据用户信息 返回跳转地址
   // user.type  /boss / genius
   console.log(type);
-  let url = (type == 1)?'/admin': '/index'
+  let url = (type === '1')?'/admin': '/index'
   // if(!avatar){
   //   url += 'info'
   // }
@@ -42,4 +42,26 @@ export function transformGrade(grade){
   }
   return str;
 
+}
+
+export function transformOrderStatus(status){
+  let obj = {
+    status: '待定',
+    theme: 'red'
+  };
+  switch (status) {
+    case "0":
+      obj.status = '待付款'
+      obj.theme = 'orange'
+      break;
+    case "1":
+      obj.status = '待发货'
+      obj.theme = 'green'
+      break;
+    case "2":
+      obj.status = '订单完成'
+      obj.theme = 'blue'
+      break;
+  }
+  return obj
 }
