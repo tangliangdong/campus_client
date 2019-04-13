@@ -68,7 +68,7 @@ class AddressForm extends React.Component{
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('username', {
+          {getFieldDecorator('name', {
             rules: [{ required: true, message: '请输入收件人!' }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="收件人" />

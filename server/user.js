@@ -166,8 +166,6 @@ Router.get('/address/list', function(req, res){
 Router.post('/address/add', function(req, res){
   const userId = req.session.userinfo._id
   const data = req.body.data
-  console.log(userId);
-  console.log(data);
   const address = new Address({
     dorm: data.dorm,
     content: data.content,

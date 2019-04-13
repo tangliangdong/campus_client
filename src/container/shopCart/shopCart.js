@@ -35,8 +35,13 @@ class ShopCart extends React.Component{
   // 结算按钮
   handleClick(){
     // const hide = message.loading('正在结算...', 0);
+    if(this.state.selectedGoods!=undefined && this.state.selectedGoods.length > 0){
 
-    this.props.history.push('/index/order')
+      this.props.history.push('/index/order')
+    }else{
+      message.warning('未选择商品')
+    }
+
 
     // setTimeout(hide, 2500);
   }

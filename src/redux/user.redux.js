@@ -27,7 +27,7 @@ const initState = {
 export function user(state=initState, action){
   switch(action.type){
     case AUTH_SUCCESS:
-      return {...state, msg: '',logoutTo: '', redirectTo: getRedirectPath(action.payload), ...action.payload}
+      return {...state,logoutTo: '',msg: '', redirectTo: getRedirectPath(action.payload), ...action.payload}
     case LOAD_DATA:
       return {...state, ...action.payload, msg: ''}
     case LOAD_IDENTITY:

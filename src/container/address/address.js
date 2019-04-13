@@ -146,7 +146,7 @@ class AddressPage extends React.Component{
     let dorm_list = []
     if(this.props.dorms!==undefined&&this.props.dorms!==null){
       this.props.dorms.map((dorm) => (
-        dorm_list.push(<Option value={dorm.value}>{dorm.value}</Option>)
+        dorm_list.push(<Option key={dorm._id} value={dorm.value}>{dorm.value}</Option>)
       ))
     }
 

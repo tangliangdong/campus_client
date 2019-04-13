@@ -59,9 +59,11 @@ class AdminPage extends React.Component{
 
   render(){
 
+    let redirectModel = (this.props.user.redirectTo!=undefined&&this.props.user.redirectTo!=='') ? <Redirect to={this.props.user.redirectTo}></Redirect>: null
+
     return (
       <Layout className="layout">
-        <Redirect to={this.props.user.redirectTo}></Redirect>
+        {redirectModel}
         <Header>
           <Menu
           onClick={this.topNavHandle}

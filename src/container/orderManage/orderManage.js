@@ -9,25 +9,29 @@ import {
   InputNumber,
   Table,
   Modal,
+  Tag,
+  message,
 } from 'antd'
 
 import { connect } from 'react-redux'
-import { getOrderList, deleteOrder } from '../../redux/order.redux'
+import { getOrderList, deleteOrder, changeOrderStatus } from '../../redux/order.redux'
 import OrderInfo from '../../component/orderInfo/orderInfo'
 import Message from '../../component/message/message'
+import { transformOrderStatus } from '../../utils'
 
 const confirm = Modal.confirm;
 
 @connect(
   state => state,
-  { getOrderList, deleteOrder }
+  { getOrderList, deleteOrder, changeOrderStatus }
 )
 class OrderManage extends React.Component{
 
   constructor(props){
     super(props);
     this.state = {
-      deleteVisible: false,
+      editVisible: false,
+      modalContent: ''
     }
   }
   componentDidMount(){
@@ -61,17 +65,30 @@ class OrderManage extends React.Component{
     });
   }
 
- handleOk(obj){
-   this.setState({
-     [obj]: false,
-   });
- }
+  handleOk(obj){
+    this.setState({
+      [obj]: false,
+    });
+  }
 
- handleCancel(obj){
-   this.setState({
-     [obj]: false,
-   });
- }
+  handleCancel(obj){
+    this.setState({
+      [obj]: false,
+    });
+  }
+
+  editStatus(status){
+    const data = this.state.info
+
+    if(data.status== status){
+      message.warning('状态未修改')
+      return
+    }
+    this.props.changeOrderStatus(data._id, status)
+    this.setState({
+      editVisible: false,
+    });
+  }
 
 
   render(){
@@ -97,11 +114,23 @@ class OrderManage extends React.Component{
       dataIndex: 'user_id.phone',
       key: 'user_id.phone',
     }, {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      render: (text, record, index) => {
+        const obj = transformOrderStatus(record.status.toString());
+
+        return <Tag color={obj.theme}>{obj.status}</Tag>
+      }
+    }, {
       title: '操作',
       dataIndex: 'address',
       key: 'address',
       render: (text, record, index) => {
-        return <div><a type="primary" onClick={()=>this.showDeleteConfirm(record)}>delete</a></div>
+        return <div>
+          <a type="danger" onClick={()=>this.showDeleteConfirm(record)}>delete</a>
+          |<a type="primary" onClick={()=>this.showModal('editVisible', record)}>edit</a>
+        </div>
       }
     }];
 
@@ -139,6 +168,11 @@ class OrderManage extends React.Component{
       }
     ]
 
+    // let modalContent = <div>
+    //   <Button></Button>
+    //   <Button></Button>
+    // </div>
+
     return (
       <div>
         <Message msg={this.props.order.msg} />
@@ -155,6 +189,17 @@ class OrderManage extends React.Component{
                 dataSource={record.goods}></Table>
             )
           }}/>
+
+          <Modal
+            title="修改订单状态"
+            visible={this.state.editVisible}
+            onOk={()=>this.handleOk('editVisible')}
+            onCancel={()=>this.handleCancel('editVisible')}
+          >
+            <Button onClick={()=>this.editStatus(0)}>代付款</Button>
+            <Button onClick={()=>this.editStatus(1)}>已发货</Button>
+            <Button onClick={()=>this.editStatus(2)}>完成订单</Button>
+          </Modal>
 
 
 

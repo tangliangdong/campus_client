@@ -67,6 +67,18 @@ Router.post('/delete', function( req, res){
   })
 })
 
+Router.post('/changeStatus', function( req, res){
+  const id = req.body.id;
+  const status = req.body.status;
+  Order.update({_id: id}, {status: status}, function(err, doc){
+    if(err){
+      return res.json({code: 0, msg: err})
+    }else{
+      return res.json({code: 1, msg: '订单修改成功'})
+    }
+  })
+})
+
 
 
 module.exports = Router

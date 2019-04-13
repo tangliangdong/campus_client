@@ -58,3 +58,17 @@ export function deleteOrder(id){
       })
   }
 }
+
+export function changeOrderStatus(id, status){
+  return dispatch=>{
+    axios.post('/order/changeStatus', {id: id, status: status})
+      .then(res=>{
+        if(res.status==200){
+          dispatch(orderSuccessMsg(res.data.msg))
+          dispatch(getOrderList())
+        }else{
+          dispatch(errorMsg(res.data.msg))
+        }
+      })
+  }
+}
