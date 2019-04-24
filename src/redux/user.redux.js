@@ -45,7 +45,7 @@ export function user(state=initState, action){
     case GRADE_DATA:
       return {...state, grades: action.payload}
     case ORDER_DATA:
-      return {...state, orderList: action.payload}
+      return {...state, orderList: action.payload, msg: ''}
     case REGISTER_INFO:
       return {...state, register_data: action.payload}
     default:

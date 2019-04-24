@@ -6,7 +6,7 @@ const User = model.getModel('user')
 const Goods = model.getModel('goods')
 const Order = model.getModel('order_form')
 const utils = require('utility')
-
+const util = require('./util')
 
 Router.get('/list',function(req, res){
   Order.find()
@@ -67,6 +67,7 @@ Router.post('/delete', function( req, res){
   })
 })
 
+// 更改订单状态
 Router.post('/changeStatus', function( req, res){
   const id = req.body.id;
   const status = req.body.status;
@@ -77,6 +78,63 @@ Router.post('/changeStatus', function( req, res){
       return res.json({code: 1, msg: '订单修改成功'})
     }
   })
+})
+
+// 下订单
+Router.post('/placeOrder', function( req, res){
+  let data = req.body.data
+  const address = req.body.address
+  const price = req.body.price
+  console.log(data);
+  console.log(address);
+  console.log(price);
+  const userinfo = req.session.userinfo
+  let goods = [];
+  var timestamp= new Date().getTime();
+  // var time = util.getLocalTime(timestamp)
+  console.log(time);
+  for (var index in data) {
+    let obj = {
+      goods_id: data[index].goods_id._id,
+      price: data[index].goods_id.now_price,
+      name: data[index].goods_id.name,
+      desc: data[index].goods_id.desc,
+      num: data[index].sum,
+    }
+    goods.push(obj)
+  }
+  let order = new Order({
+    sequence: userinfo._id+"_"+timestamp,
+    user_id: userinfo._id,
+    add_time: timestamp,
+    price: price,
+    status: 0,
+    address: address,
+    goods: goods,
+  })
+  order.save((err, doc)=>{
+    if(!err){
+      let ids = []
+      for (var i in data) {
+        ids.push(data[i]._id)
+        console.log(data[i]._id);
+      }
+      console.log(123);
+      console.log(ids);
+      Cart.deleteMany({ _id: { $in: ids } }, function (error) {
+        if(!error){
+          return res.json(doc)
+        }else{
+          return res.json(error)
+        }
+      });
+    }else{
+      return res.json(err)
+    }
+  })
+
+
+  // return res.json({code: 1, msg: '订单修改成功'})
 })
 
 

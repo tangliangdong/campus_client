@@ -80,10 +80,10 @@ class OrderManage extends React.Component{
   editStatus(status){
     const data = this.state.info
 
-    if(data.status== status){
-      message.warning('状态未修改')
-      return
-    }
+    // if(data.status== status){
+    //   message.warning('状态未修改')
+    //   return
+    // }
     this.props.changeOrderStatus(data._id, status)
     this.setState({
       editVisible: false,

@@ -67,7 +67,20 @@ export function changeSum(id, sum){
     })
       .then(res=>{
         if(res.status==200){
-          this.cartList()
+          dispatch(cartList())
+        }else{
+          dispatch(errorMsg(res.data.msg))
+        }
+      })
+  }
+}
+
+export function placeOrder(data, price, addr){
+  return dispatch=>{
+    axios.post('/order/placeOrder', {data: data, price: price, address: addr})
+      .then(res=>{
+        if(res.status==200){
+          dispatch(cartList())
         }else{
           dispatch(errorMsg(res.data.msg))
         }
